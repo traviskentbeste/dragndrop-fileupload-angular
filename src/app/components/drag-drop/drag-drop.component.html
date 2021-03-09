@@ -1,0 +1,79 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row">
+
+            <!-- Drag and Drop Zone -->
+            <!-- (click)="avatar.click()"  -->
+            <div class="col-md-12 text-center" appDragDropFileUpload (fileDropped)="addImage($event)" (click)="avatar.click()">
+                
+                <span *ngIf="files.length == 0" class="dragText">
+                    Choose a file or drag here...(or click to select)
+                </span>
+
+                <div *ngFor="let item of files">  
+                    <div class="card float-left mr-2 mb-2" style="width: 18rem;" (click)="cardClick($event, null)">
+                        <img style="padding:8px;" class="card-img-top" alt="" width="159" height="213" [src]="sanitize(item.url)">
+                        <div class="card-body">
+                          <h6 class="card-title">
+                            {{item.file.name | stringMaxLength:22}}
+                          </h6>
+                          <hr>
+                          <div class="row">
+                              <div class="col-6">
+                                <div style="margin-top:7px;">
+                                    {{item.file.size | formatBytes}}
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <button class="btn btn-outline-secondary float-right" (click)="cardClick($event, item.file)">  
+                                    <i class="far fa-trash-alt"></i>
+                                </button> 
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <input type="file" name="avatar" #avatar id="avatar" (change)="addImage($event.target.files)" hidden multiple accept="image/*">
+            
+
+            <!-- Upload Bar -->
+            <div class="col-md-12 mt-2 pl-0 pr-0">
+
+                <div id="uploadInputGroup" class="input-group mb-3">        
+
+                    <span *ngIf="hasMultipleImages == 1">
+                        <i class="far fa-file" style="margin-top:10px;"></i>
+                    </span>
+                    
+                    <input type="text" class="form-control" formControlName="imageNames">
+                    
+                    <div class="input-group-append">
+                      <button *ngIf="files.length > 1" (click)="clearAll()" class="btn btn-secondary mr-2" type="button"><i class="fas fa-trash-alt mr-2"></i>Clear</button>
+                      <button *ngIf="files.length > 0" (click)="uploadToServer()" class="btn btn-secondary mr-2" type="button"><i class="fas fa-file-upload mr-2"></i>Upload</button>
+                      <button (click)="avatar.click()" class="btn btn-primary" type="button"><i class="fas fa-file mr-2"></i>Browse</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="col-md-12 pl-0 pr-0" *ngIf="progress > 0">
+                <div class="progress form-group">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                    </div>
+                </div>
+            </div>
+
+            <!-- error message -->
+            <div class="col-md-12 pl-0 pr-0">
+                <div class="alert alert-danger" role="alert" *ngIf="showError == 1">
+                    There was an error uploading, we're having a connectivity error.
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

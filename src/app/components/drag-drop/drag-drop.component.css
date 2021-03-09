@@ -1,0 +1,16 @@
+
+/* this is for the textbox at the bottom of the drop space */
+#uploadInputGroup input {
+  border:none; 
+}
+#uploadInputGroup {
+  border: 1px gray solid;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* this is for the text of the drop space */
+.dragText {
+  line-height:350px;
+  font-size:35px;
+}
